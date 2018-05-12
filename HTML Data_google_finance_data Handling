@@ -1,0 +1,31 @@
+#HTML Data Handling
+
+from pandas import read_html
+import urllib as urllib
+
+openurl=urllib.request.urlopen(url)
+urlstr=openurl.read()
+mystr = urlstr.decode("utf8")
+dframe_list = pd.read_html(mystr)
+dframe_list[0]
+
+#Google Finance Data handling
+
+import pandas as pd
+from pandas import DataFrame, Series
+import pandas_datareader as pdweb
+from yahoo_finance import Share 
+from googlefinance.client import get_price_data, get_prices_data, get_prices_time_data
+
+xom_param = {'q': "XOM", 'i': "86400", 'x': "NYSE", 'p': "10Y"}
+cvx_param = {'q': "CVX", 'i': "86400", 'x': "NYSE", 'p': "10Y"}
+BP_param = {'q': "BP", 'i': "86400", 'x': "NYSE", 'p': "10Y"}
+
+xom=get_price_data(xom_param)
+cvx=get_price_data(cvx_param)
+bp=get_price_data(BP_param)
+
+col='Close'
+prices=DataFrame([bp[col],cvx[col],xom[col]],index=['BP','CVX','XOM']).transpose()
+col='Volume'
+volume=DataFrame([bp[col],cvx[col],xom[col]],index=['BP','CVX','XOM']).transpose()
